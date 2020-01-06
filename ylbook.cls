@@ -20,20 +20,17 @@
 Standard LaTeX document class
 Modified by YuZJ.]
 \newif\if@restonecol
-\newif\if@chinese
-\@chinesefalse
-\newif\if@titlepage
-\@titlepagetrue
-\newif\if@openright
+\newif\if@chinese \@chinesefalse
+\newif\if@titlepage \@titlepagefalse
+\newif\if@openright \@openrighttrue
 \newif\if@mainmatter \@mainmattertrue
 \setlength\paperheight {297mm}%
- \setlength\paperwidth  {210mm}
-\@twosidetrue  \@mparswitchtrue
+\setlength\paperwidth  {210mm}
 \DeclareOption{draft}{\setlength\overfullrule{5pt}}
 \DeclareOption{final}{\setlength\overfullrule{0pt}}
 \DeclareOption{chinese}{\@chinesetrue}
-\@openrighttrue
-\@twocolumnfalse
+\DeclareOption{titlepage}{\@titlepagetrue}
+\@twosidetrue  \@mparswitchtrue\@twocolumnfalse
 \DeclareOption{openbib}{%
   \AtEndOfPackage{%
    \renewcommand\@openbib@code{%
@@ -439,7 +436,7 @@ Modified by YuZJ.]
     	\if@chinese
     	因排版需要,这一页被空置。
     	\else
-    			 This page is intentionally left blank.
+    			 \ttfamily This page is intentionally left blank.
     	\fi\newpage
 
     }
@@ -675,4 +672,50 @@ Modified by YuZJ.]
   \onecolumn
 \fi
 \renewcommand{\verbatim@font}{\footnotesize \color{blue}\ttfamily}
+\usepackage{titlesec}
+\if@chinese
+\titleformat{\chapter}[frame]{\Huge}{\small 第 \thechapter 章}{0pt}{}
+\titleformat{\section}[frame]{\LARGE}{\small 第 \thesection 节}{0pt}{}
+\titleformat{\subsection}[frame]{\large}{\small  第\thesubsection 小节}{0pt}{}
+\titleformat{\subsubsection}[frame]{}{\small 第\thesubsubsection 小小节}{0pt}{}
+\else
+\titleformat{\chapter}[frame]{\bf\sf\Huge}{\small Chapter \thechapter}{0pt}{}
+\titleformat{\section}[frame]{\bf\sf\LARGE}{\small Section \thesection}{0pt}{}
+\titleformat{\subsection}[frame]{\bf\sf\large}{\small SubSection \thesubsection}{0pt}{}
+\titleformat{\subsubsection}[frame]{\bf\sf}{\small SubSubSection \thesubsubsection}{0pt}{}
+\fi
+\usepackage{flafter}
+\if@chinese
+\usepackage{xeCJK}
+\fi
+\usepackage{color}
+\usepackage{float}
+\usepackage{graphicx}
+\usepackage{indentfirst}
+  \if@titlepage
+  \usepackage{fancybox}
+  \shadowsize=2pt
+  \usepackage{eso-pic}
+  \newcommand{\@intro}{}
+  \newcommand{\intro}[1]{\renewcommand{\@intro}{#1}}
+  \newcommand{\@subtitle}{}
+\newcommand{\subtitle}[1]{\renewcommand{\@subtitle}{#1}}
+\newcommand\maketitle{	
+		\begin{titlepage}
+			\sffamily
+			%\color{white}
+			%\AddToShipoutPictureBG*{\includegraphics[width=21cm,height=29.7cm]{pic/face.png}}
+			\vspace*{10mm}
+			\begin{center}
+				\bfseries\doublebox{\parbox{14cm}{\centering
+						\Ovalbox{\centering\parbox{13.7cm}{\centering\Huge \@title\large\\\vspace*{1mm}\@subtitle }}\\\vspace*{5mm}\large \@author \\\vspace*{5mm} Compiled at: \today}}
+			\end{center}
+			\vspace*{10mm}
+			\shadowbox{\parbox{8cm}{\@intro}}
+		\end{titlepage}
+	\setcounter{footnote}{0}%
+	\global\let\maketitle\relax
+
+}
+\fi
 \endinput
