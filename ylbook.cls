@@ -144,7 +144,7 @@ Modified by YuZJ.]
 \setlength\lineskip{0.5ex}
 \setlength\normallineskip{0.5ex}
 \renewcommand\baselinestretch{}
-\setlength\parskip{1ex \@plus \p@}
+\setlength\parskip{1ex}
 \@lowpenalty   51
 \@medpenalty  151
 \@highpenalty 301
@@ -201,7 +201,7 @@ Modified by YuZJ.]
     \let\sectionmark\@gobble
     }
 \newcommand*\chaptermark[1]{}
-\setcounter{secnumdepth}{2}
+\setcounter{secnumdepth}{5}
 \newcounter {part}
 \newcounter {chapter}
 \newcounter {section}[chapter]
@@ -230,7 +230,6 @@ Modified by YuZJ.]
   \@mainmatterfalse
 	\pagenumbering{roman}}
 \newcommand\part{%
-		\setcounter{chapter}{0}
 \if@openright
 \cleardoublepage
 \else
@@ -441,6 +440,8 @@ Modified by YuZJ.]
 
     }
 \newcommand\appendix{\par
+	\setlength\lineskip{0.2ex}
+	\setlength\parskip{0.5ex}
 \@twocolumntrue
   \setcounter{chapter}{0}%
   \setcounter{section}{0}%
@@ -695,7 +696,6 @@ Modified by YuZJ.]
   \if@titlepage
   \usepackage{fancybox}
   \shadowsize=2pt
-  \usepackage{eso-pic}
   \newcommand{\@intro}{}
   \newcommand{\intro}[1]{\renewcommand{\@intro}{#1}}
   \newcommand{\@subtitle}{}
@@ -703,8 +703,6 @@ Modified by YuZJ.]
 \newcommand\maketitle{	
 		\begin{titlepage}
 			\sffamily
-			%\color{white}
-			%\AddToShipoutPictureBG*{\includegraphics[width=21cm,height=29.7cm]{pic/face.png}}
 			\vspace*{10mm}
 			\begin{center}
 				\bfseries\doublebox{\parbox{14cm}{\centering
@@ -715,7 +713,6 @@ Modified by YuZJ.]
 		\end{titlepage}
 	\setcounter{footnote}{0}%
 	\global\let\maketitle\relax
-
 }
 \fi
 \endinput
