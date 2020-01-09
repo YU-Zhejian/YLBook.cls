@@ -249,7 +249,6 @@
 	\fi
 	\markboth{}{}%
 	{\if@web
-			\interlinepenalty \@M
 			\normalfont
 			\begin{center}
 			\ifnum \c@secnumdepth >-2\relax
@@ -448,10 +447,12 @@
 \newcommand\appendix{\par
 	\setlength\lineskip{0.2ex}
 	\setlength\parskip{0.5ex}
-	\@twocolumntrue
 	\setcounter{chapter}{0}%
 	\setcounter{section}{0}%
-	\if@chinese\part{附录}\else\part{Appendix}\fi}
+	\if@chinese\part{附录}\else\part{Appendix}\fi
+	\twocolumn
+	\global\let\appendix\relax
+	\global\let\part\relax}
 \setlength\arraycolsep{5\p@}
 \setlength\tabcolsep{6\p@}
 \setlength\arrayrulewidth{.4\p@}
