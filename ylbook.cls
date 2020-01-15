@@ -16,6 +16,9 @@
 [2019/10/25 v1.4k
 	Standard LaTeX document class
 	Modified by YuZJ.]
+\renewcommand{\cleardoublepage}{\clearpage\if@twoside \ifodd\c@page\else
+\hbox{}\thispagestyle{empty}\newpage\if@twocolumn\hbox{}\thispagestyle{empty}\newpage\fi\fi\fi
+	}
 \newif\if@restonecol
 \newif\if@chinese \@chinesefalse
 \newif\if@titlepage \@titlepagefalse
@@ -27,7 +30,8 @@
 \DeclareOption{draft}{\setlength\overfullrule{5pt}}
 \DeclareOption{final}{\setlength\overfullrule{0pt}}
 \DeclareOption{chinese}{\@chinesetrue}
-\DeclareOption{web}{\@webtrue\@twosidefalse}
+\DeclareOption{web}{\@webtrue\@twosidefalse
+\renewcommand\familydefault{\sfdefault}}
 \DeclareOption{titlepage}{\@titlepagetrue}
 \DeclareOption{openbib}{%
 	\AtEndOfPackage{%
@@ -166,7 +170,7 @@
 	\markboth {\MakeUppercase{%
 			\ifnum \c@secnumdepth >\m@ne
 				\if@mainmatter
-					\@chapapp\ \thechapter. \ %
+					Chapter\ \thechapter. \ %
 				\fi
 			\fi
 			##1}}{}}%
@@ -185,7 +189,7 @@
 	\markright {\MakeUppercase{%
 			\ifnum \c@secnumdepth >\m@ne
 				\if@mainmatter
-					\@chapapp\ \thechapter. \ %
+					Chapter\ \thechapter. \ %
 				\fi
 			\fi
 			##1}}}}
@@ -210,35 +214,33 @@
 \renewcommand\thepart {\@Roman\c@part}
 \renewcommand\thechapter {\@arabic\c@chapter}
 \renewcommand\thesection {\thechapter.\@arabic\c@section}
-\renewcommand\thesubsection   {\thesection.\@arabic\c@subsection}
+\renewcommand\thesubsection{\thesection.\@arabic\c@subsection}
 \renewcommand\thesubsubsection{\thesubsection.\@arabic\c@subsubsection}
-\renewcommand\theparagraph    {\thesubsubsection.\@arabic\c@paragraph}
-\renewcommand\thesubparagraph {\theparagraph.\@arabic\c@subparagraph}
-\newcommand\@chapapp{Chapter}
+\renewcommand\theparagraph{\thesubsubsection.\@arabic\c@paragraph}
+\renewcommand\thesubparagraph{\theparagraph.\@arabic\c@subparagraph}
 \newcommand\frontmatter{%
-	%\clearpage
 	\@mainmatterfalse
 	\pagenumbering{roman}}
 \newcommand\mainmatter{%
-	%\clearpage
 	\@mainmattertrue
 	\pagenumbering{arabic}}
 \newcommand\backmatter{%
-	%\clearpage
 	\@mainmatterfalse
 	\pagenumbering{roman}}
 \newcommand\part{%
-	\if@web	\else
+	\if@web
+	\par
+	\else
 		\cleardoublepage
-		\thispagestyle{plain}%
+		\thispagestyle{empty}%
+	\fi
 		\if@twocolumn
 			\onecolumn
 			\@tempswatrue
 		\else
 			\@tempswafalse
 		\fi
-		\null\vfil
-	\fi
+	
 	\secdef\@part\@spart}
 \def\@part[#1]#2{%
 	\ifnum \c@secnumdepth >-2\relax
@@ -246,21 +248,20 @@
 		\addcontentsline{toc}{part}{\thepart\hspace{1em}#1}%
 	\else
 		\addcontentsline{toc}{part}{#1}%
-	\fi
-	\markboth{}{}%
+	\fi%
 	{\if@web
 			\normalfont
 			\begin{center}
 			\ifnum \c@secnumdepth >-2\relax
 				\if@chinese
-					\Huge\bfseries 第 \thepart 部分
+					\Huge\bfseries 第 \thepart 部分: #2
 				\else
-					\Huge\bfseries PART \nobreakspace\thepart
+					\Huge\bfseries PART \nobreakspace\thepart\space #2
 				\fi
 			\fi
-			\space \bfseries #2
 			\end{center}
 		\else
+		\vspace*{5cm}
 			\centering
 			\interlinepenalty \@M
 			\normalfont
@@ -272,8 +273,8 @@
 				\fi
 				\par
 				\vskip 20\p@
+				\Huge \bfseries #2\par
 			\fi
-			\Huge \bfseries #2\par
 		\fi
 	}%
 	\@endpart}
@@ -283,43 +284,52 @@
 			\normalfont
 			\Huge \bfseries #1\par}%
 	\@endpart}
-\def\@endpart{\vfil
-	\if@web	\else \newpage \fi
+\def\@endpart{%\vfil
+	\if@web	\else \cleardoublepage \fi
 	\if@tempswa
 		\twocolumn
 	\fi}
 \newcommand\chapter{\par
-  \if@twocolumn\clearpage\fi
   \global\@topnum\z@
   \@afterindentfalse
-  \secdef\@chapter\@schapter}
+  \secdef\@chapter\@schapter
+  }
 \def\@chapter[#1]#2{
 	\refstepcounter{chapter}%
-	\typeout{\@chapapp\space\thechapter.}%
+	\if@chinese
+	\typeout{第 \thechapter 章：}%
+	\esac
+	\typeout{Chapter \space\thechapter .}%
+	\fi
 	\addcontentsline{toc}{chapter}%
 	{\protect\numberline{\thechapter}#1}%
 	\chaptermark{#1}%
 	\addtocontents{lof}{\protect\addvspace{10\p@}}%
 	\addtocontents{lot}{\protect\addvspace{10\p@}}%
-	\if@twocolumn
-		\@topnewpage[\@makechapterhead{#2}]%
-	\else
-		\@makechapterhead{#2}%
-		\@afterheading
-	\fi}
+	\@makechapterhead{#2}%
+	\@afterheading
+	}
 \def\@makechapterhead#1{%
-	\vspace*{50\p@}%
+\if@web\else\vspace*{50\p@}\fi
 	{\parindent \z@ \raggedright \normalfont
 		\ifnum \c@secnumdepth >\m@ne
-			\if@mainmatter
-				\huge\bfseries \@chapapp\space \thechapter
-				\par\nobreak
-				\vskip 20\p@
+			\if@web
+				\if@chinese
+					\huge\bfseries 第 \thechapter 章：\space
+				\else
+					\huge\bfseries Chapter \thechapter .\space
+				\fi
+				#1\par\nobreak
+			\else
+				\if@chinese
+					\huge\bfseries 第 \thechapter 章：\par
+				\else
+					\huge\bfseries Chapter \thechapter .\par
+				\fi
+				\Huge\bfseries #1\par\nobreak
+				\vspace*{40\p@}
 			\fi
 		\fi
-		\interlinepenalty\@M
-		\Huge \bfseries #1\par\nobreak
-		\vskip 40\p@
 	}}
 \def\@schapter#1{\if@twocolumn
 		\@topnewpage[\@makeschapterhead{#1}]%
@@ -420,6 +430,7 @@
 {\endlist}
 \newenvironment{titlepage}
 {%
+\thispagestyle{empty}
 	\if@chinese
 		\addcontentsline{toc}{chapter}{封面}
 	\else
@@ -430,11 +441,10 @@
 	\else
 		\@restonecolfalse
 	\fi
-	\thispagestyle{empty}%
-	\setcounter{page}\z@
-}%
+	\setcounter{page}{0}}
 {\if@restonecol\twocolumn \fi
 	\if@web
+		\par
 	\else
 		\newpage
 		\if@chinese
@@ -442,7 +452,8 @@
 		\else
 			\ttfamily This page is intentionally left blank.
 		\fi
-	\fi\newpage
+		\newpage
+	\fi
 }
 \newcommand\appendix{\par
 	\setlength\lineskip{0.2ex}
@@ -450,7 +461,6 @@
 	\setcounter{chapter}{0}%
 	\setcounter{section}{0}%
 	\if@chinese\part{附录}\else\part{Appendix}\fi
-	\twocolumn
 	\global\let\appendix\relax
 	\global\let\part\relax}
 \setlength\arraycolsep{5\p@}
@@ -508,9 +518,6 @@
 		\hb@xt@\hsize{\hfil\box\@tempboxa\hfil}%
 	\fi
 	\vskip\belowcaptionskip}
-\if@web
-	%Change Font to SS
-\fi
 \DeclareOldFontCommand{\rm}{\normalfont\rmfamily}{\mathrm}
 \DeclareOldFontCommand{\sf}{\normalfont\sffamily}{\mathsf}
 \DeclareOldFontCommand{\tt}{\normalfont\ttfamily}{\mathtt}
@@ -525,15 +532,13 @@
 \newcommand\@dotsep{4.5}
 \setcounter{tocdepth}{5}
 \newcommand\tableofcontents{%
-	\small \twocolumn
+	\setcounter{chapter}{-1}
 	\if@chinese
 		\chapter{目录}%
 	\else
 		\chapter{Table of Contents}
 	\fi
-	\setcounter{chapter}{0}
 	\@starttoc{toc}%
-	\onecolumn\normalsize
 }
 \newcommand*\l@part[2]{%
 	\ifnum \c@tocdepth >-2\relax
@@ -682,15 +687,13 @@
 \else
 	\onecolumn
 \fi
-\renewcommand{\verbatim@font}{\footnotesize \color{blue}\ttfamily}
+\renewcommand{\verbatim@font}{\color{blue}\ttfamily}
 \usepackage{titlesec}
 \if@chinese
-	\titleformat{\chapter}[frame]{\Huge}{\small 第 \thechapter 章}{0pt}{}
 	\titleformat{\section}[frame]{\LARGE}{\small 第 \thesection 节}{0pt}{}
 	\titleformat{\subsection}[frame]{\large}{\small  第\thesubsection 小节}{0pt}{}
 	\titleformat{\subsubsection}[frame]{}{\small 第\thesubsubsection 小小节}{0pt}{}
 \else
-	\titleformat{\chapter}[frame]{\bf\sf\Huge}{\small Chapter \thechapter}{0pt}{}
 	\titleformat{\section}[frame]{\bf\sf\LARGE}{\small Section \thesection}{0pt}{}
 	\titleformat{\subsection}[frame]{\bf\sf\large}{\small SubSection \thesubsection}{0pt}{}
 	\titleformat{\subsubsection}[frame]{\bf\sf}{\small SubSubSection \thesubsubsection}{0pt}{}
