@@ -13,9 +13,7 @@
 %%This class file is modified by YuZJ.
 \NeedsTeXFormat{LaTeX2e}[1995/12/01]
 \ProvidesClass{ylbook}
-[2019/10/25 v1.4k
-	Standard LaTeX document class
-	Modified by YuZJ.]
+[2019/10/25 v1.4k Unstandard LaTeX document class, Modified by YuZJ.]
 \renewcommand{\cleardoublepage}{\clearpage\if@twoside \ifodd\c@page\else
 \hbox{}\thispagestyle{empty}\newpage\if@twocolumn\hbox{}\thispagestyle{empty}\newpage\fi\fi\fi
 	}
@@ -23,7 +21,7 @@
 \newif\if@chinese \@chinesefalse
 \newif\if@titlepage \@titlepagefalse
 \newif\if@web \@webfalse
-\newif\if@mainmatter \@mainmattertrue
+\newif\if@mainmatter
 \@twosidetrue  \@mparswitchtrue\@twocolumnfalse
 \setlength\paperheight {297mm}%
 \setlength\paperwidth  {210mm}
@@ -33,16 +31,6 @@
 \DeclareOption{web}{\@webtrue\@twosidefalse
 \renewcommand\familydefault{\sfdefault}}
 \DeclareOption{titlepage}{\@titlepagetrue}
-\DeclareOption{openbib}{%
-	\AtEndOfPackage{%
-		\renewcommand\@openbib@code{%
-			\advance\leftmargin\bibindent
-			\itemindent -\bibindent
-			\listparindent \itemindent
-			\parsep \z@
-		}%
-		\renewcommand\newblock{\par}}%
-}
 \ProcessOptions
 \renewcommand\normalsize{%
 	\@setfontsize\normalsize\@xpt\@xiipt
@@ -169,8 +157,20 @@
 	\def\chaptermark##1{%
 	\markboth {\MakeUppercase{%
 			\ifnum \c@secnumdepth >\m@ne
-				\if@mainmatter
-					Chapter\ \thechapter. \ %
+				\if@web
+					\if@chinese
+						第\ \thechapter章\ %
+					\else
+						Chapter\ \thechapter. \ %
+					\fi
+				\else
+					\if@mainmatter
+						\if@chinese
+							第\ \thechapter章\ %
+						\else
+							Chapter\ \thechapter. \ %
+						\fi
+					\fi
 				\fi
 			\fi
 			##1}}{}}%
@@ -188,9 +188,21 @@
 	\def\chaptermark##1{%
 	\markright {\MakeUppercase{%
 			\ifnum \c@secnumdepth >\m@ne
-				\if@mainmatter
+			\if@web
+			\if@chinese
+				第\ \thechapter章\ %
+			\else
+				Chapter\ \thechapter. \ %
+			\fi
+		\else
+			\if@mainmatter
+				\if@chinese
+					第\ \thechapter章\ %
+				\else
 					Chapter\ \thechapter. \ %
 				\fi
+			\fi
+		\fi
 			\fi
 			##1}}}}
 \fi
@@ -220,13 +232,19 @@
 \renewcommand\thesubparagraph{\theparagraph.\@arabic\c@subparagraph}
 \newcommand\frontmatter{%
 	\@mainmatterfalse
-	\pagenumbering{roman}}
+\pagenumbering{roman}}
 \newcommand\mainmatter{%
 	\@mainmattertrue
 	\pagenumbering{arabic}}
 \newcommand\backmatter{%
 	\@mainmatterfalse
-	\pagenumbering{roman}}
+\pagenumbering{roman}}
+\if@web
+\global\let\frontmatter\relax
+\global\let\mainmatter\relax
+\global\let\backmatter\relax
+\@mainmattertrue
+\fi
 \newcommand\part{%
 	\if@web
 	\par
@@ -240,7 +258,6 @@
 		\else
 			\@tempswafalse
 		\fi
-	
 	\secdef\@part\@spart}
 \def\@part[#1]#2{%
 	\ifnum \c@secnumdepth >-2\relax
@@ -430,18 +447,20 @@
 {\endlist}
 \newenvironment{titlepage}
 {%
-\thispagestyle{empty}
+\if@web\thispagestyle{headings}\else\thispagestyle{empty}\fi
 	\if@chinese
 		\addcontentsline{toc}{chapter}{封面}
+		\markboth{封面}{封面}
 	\else
 		\addcontentsline{toc}{chapter}{Titlepage}
+		\markboth{TITLEPAGE}{TITLEPAGE}
 	\fi
 	\if@twocolumn
 		\@restonecoltrue\onecolumn
 	\else
 		\@restonecolfalse
 	\fi
-	\setcounter{page}{0}}
+	\if@web\setcounter{page}{1}\else\setcounter{page}{0}\fi}
 {\if@restonecol\twocolumn \fi
 	\if@web
 		\par
@@ -580,12 +599,10 @@
 \newcommand*\l@paragraph{\@dottedtocline{4}{10em}{5em}}
 \newcommand*\l@subparagraph{\@dottedtocline{5}{12em}{6em}}
 \newcommand\listoffigures{%
-	\twocolumn
 	\chapter{\listfigurename}%
 	\@mkboth{\MakeUppercase\listfigurename}%
 	{\MakeUppercase\listfigurename}%
 	\@starttoc{lof}%
-	\onecolumn
 }
 \newcommand*\l@figure{\@dottedtocline{1}{1.5em}{2.3em}}
 \newcommand\listoftables{%
@@ -595,8 +612,7 @@
 		\@restonecolfalse
 	\fi
 	\chapter{\listtablename}%
-	\@mkboth{%
-		\MakeUppercase\listtablename}%
+	\@mkboth{\MakeUppercase\listtablename}%
 	{\MakeUppercase\listtablename}%
 	\@starttoc{lot}%
 	\if@restonecol\twocolumn\fi
@@ -634,7 +650,7 @@
 	\twocolumn[\@makeschapterhead{\indexname}]%
 	\@mkboth{\MakeUppercase\indexname}%
 	{\MakeUppercase\indexname}%
-	\thispagestyle{plain}\parindent\z@
+	\thispagestyle{headings}\parindent\z@
 	\parskip\z@ \@plus .3\p@\relax
 	\columnseprule \z@
 	\columnsep 35\p@
@@ -698,14 +714,11 @@
 	\titleformat{\subsection}[frame]{\bf\sf\large}{\small SubSection \thesubsection}{0pt}{}
 	\titleformat{\subsubsection}[frame]{\bf\sf}{\small SubSubSection \thesubsubsection}{0pt}{}
 \fi
-\usepackage{flafter}
 \if@chinese
 	\usepackage{xeCJK}
 \fi
 \usepackage{color}
-\usepackage{float}
 \usepackage{graphicx}
-\usepackage{indentfirst}
 \if@titlepage
 	\usepackage{fancybox}
 	\shadowsize=2pt
@@ -716,7 +729,8 @@
 	\newcommand\maketitle{
 		\begin{titlepage}
 			\sffamily
-			\vspace*{10mm}
+			\if@web
+			\else\vspace*{10mm}\fi
 			\begin{center}
 				\bfseries\doublebox{\parbox{14cm}{\centering
 						\Ovalbox{\centering\parbox{13.7cm}{\centering\Huge \@title\large\\\vspace*{1mm}\@subtitle }}\\\vspace*{5mm}\large \@author \\\vspace*{5mm} Compiled at: \today}}
@@ -725,7 +739,12 @@
 			\shadowbox{\parbox{8cm}{\@intro}}
 		\end{titlepage}
 		\setcounter{footnote}{0}%
+		\vspace*{20mm}
 		\global\let\maketitle\relax
+		\global\let\intro\relax
+		\global\let\@intro\relax
+		\global\let\subtitle\relax
+		\global\let\@subtitle\relax
 	}
 \fi
 \endinput
