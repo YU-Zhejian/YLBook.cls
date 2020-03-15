@@ -13,10 +13,10 @@
 %% This class file is modified by YuZJ.
 \NeedsTeXFormat{LaTeX2e}[1995/12/01]
 \ProvidesClass{ylbook}
-[2019/10/25 v1.0 Unstandard LaTeX document class, Modified by YuZJ.]
+[2019/10/25 v1.9 Unstandard LaTeX document class, Modified by YuZJ.]
 \renewcommand{\cleardoublepage}{\clearpage\if@twoside \ifodd\c@page\else
-\hbox{}\thispagestyle{empty}\newpage\if@twocolumn\hbox{}\thispagestyle{empty}\newpage\fi\fi\fi
-	}
+\hbox{}\thispagestyle{empty}\newpage\if@twocolumn\hbox{}\thispagestyle{empty}\newpage\fi\fi\fi}
+\RequirePackage{iftex}
 \newif\if@restonecol
 \newif\if@chinese \@chinesefalse
 \newif\if@titlepage \@titlepagefalse
@@ -27,11 +27,12 @@
 \setlength\paperwidth  {210mm}
 \DeclareOption{draft}{\setlength\overfullrule{5pt}}
 \DeclareOption{final}{\setlength\overfullrule{0pt}}
-\DeclareOption{chinese}{\@chinesetrue}
+\DeclareOption{chinese}{\@chinesetrue }
 \DeclareOption{web}{\@webtrue\@twosidefalse
 \renewcommand\familydefault{\sfdefault}}
 \DeclareOption{titlepage}{\@titlepagetrue}
 \ProcessOptions
+
 \renewcommand\normalsize{%
 	\@setfontsize\normalsize\@xpt\@xiipt
 	\abovedisplayskip 10\p@ \@plus2\p@ \@minus5\p@
@@ -40,6 +41,9 @@
 	\belowdisplayskip \abovedisplayskip
 	\let\@listi\@listI}
 \normalsize
+\if@chinese\RequirePackage{xeCJK}\RequireXeTeX\fi
+
+
 \ifx\MakeRobust\@undefined \else
 	\MakeRobust\normalsize
 \fi
@@ -159,16 +163,16 @@
 			\ifnum \c@secnumdepth >\m@ne
 				\if@web
 					\if@chinese
-						第\ \thechapter章\ %
+						第\space \thechapter 章\space %
 					\else
-						Chapter\ \thechapter. \ %
+						Chapter\space \thechapter. \space %
 					\fi
 				\else
 					\if@mainmatter
 						\if@chinese
-							第\ \thechapter章\ %
+							第\space \thechapter 章\space %
 						\else
-							Chapter\ \thechapter. \ %
+							Chapter\space \thechapter. \space %
 						\fi
 					\fi
 				\fi
@@ -190,16 +194,16 @@
 			\ifnum \c@secnumdepth >\m@ne
 			\if@web
 			\if@chinese
-				第\ \thechapter章\ %
+				第\space \thechapter 章\space %
 			\else
-				Chapter\ \thechapter. \ %
+				Chapter\space \thechapter. \space %
 			\fi
 		\else
 			\if@mainmatter
 				\if@chinese
-					第\ \thechapter章\ %
+					第\space \thechapter 章\space %
 				\else
-					Chapter\ \thechapter. \ %
+					Chapter\space \thechapter. \space %
 				\fi
 			\fi
 		\fi
@@ -315,7 +319,7 @@
 	\refstepcounter{chapter}%
 	\if@chinese
 	\typeout{第 \thechapter 章：}%
-	\esac
+	\else
 	\typeout{Chapter \space\thechapter .}%
 	\fi
 	\addcontentsline{toc}{chapter}%
@@ -704,7 +708,8 @@
 	\onecolumn
 \fi
 \renewcommand{\verbatim@font}{\color{blue}\ttfamily}
-\usepackage{titlesec}
+
+\RequirePackage{titlesec}
 \if@chinese
 	\titleformat{\section}[frame]{\LARGE}{\small 第 \thesection 节}{0pt}{}
 	\titleformat{\subsection}[frame]{\large}{\small  第\thesubsection 小节}{0pt}{}
@@ -714,13 +719,8 @@
 	\titleformat{\subsection}[frame]{\bf\sf\large}{\small SubSection \thesubsection}{0pt}{}
 	\titleformat{\subsubsection}[frame]{\bf\sf}{\small SubSubSection \thesubsubsection}{0pt}{}
 \fi
-\if@chinese
-	\usepackage{xeCJK}
-\fi
-\usepackage{color}
-\usepackage{graphicx}
 \if@titlepage
-	\usepackage{fancybox}
+	\RequirePackage{fancybox,color}
 	\shadowsize=2pt
 	\newcommand{\@intro}{}
 	\newcommand{\intro}[1]{\renewcommand{\@intro}{#1}}
@@ -733,7 +733,7 @@
 			\else\vspace*{10mm}\fi
 			\begin{center}
 				\bfseries\doublebox{\parbox{14cm}{\centering
-						\Ovalbox{\centering\parbox{13.7cm}{\centering\Huge \@title\large\\\vspace*{1mm}\@subtitle }}\\\vspace*{5mm}\large \@author \\\vspace*{5mm} Compiled at: \today}}
+						\Ovalbox{\centering\parbox{13.7cm}{\centering\Huge \@title\large\\\vspace*{1mm}\@subtitle }}\\\vspace*{5mm}\large \@author \\\vspace*{5mm}\if@chinese 编译于： \else Compiled at:\fi \today}}
 			\end{center}
 			\vspace*{10mm}
 			\shadowbox{\parbox{8cm}{\@intro}}
