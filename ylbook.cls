@@ -1,7 +1,7 @@
+%% Based on LaTeX standard book class.
 %% Copyright (C) 1993-2019
 %% The LaTeX3 Project and any individual authors listed elsewhere
 %% in this file.
-%% This file was generated from file(s) of the LaTeX base system.
 %% --------------------------------------------------------------
 %% It may be distributed and/or modified under the
 %% conditions of the LaTeX Project Public License, either version 1.3c
@@ -10,10 +10,10 @@
 %%    https://www.latex-project.org/lppl.txt
 %% and version 1.3c or later is part of all distributions of LaTeX
 %% version 2008 or later.
-%%This class file is modified by YuZJ.
+%% This class file is modified by YuZJ.
 \NeedsTeXFormat{LaTeX2e}[1995/12/01]
 \ProvidesClass{ylbook}
-[2019/10/25 v1.4k Unstandard LaTeX document class, Modified by YuZJ.]
+[2019/10/25 v1.0 Unstandard LaTeX document class, Modified by YuZJ.]
 \renewcommand{\cleardoublepage}{\clearpage\if@twoside \ifodd\c@page\else
 \hbox{}\thispagestyle{empty}\newpage\if@twocolumn\hbox{}\thispagestyle{empty}\newpage\fi\fi\fi
 	}
