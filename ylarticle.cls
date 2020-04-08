@@ -1,20 +1,22 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Based on Stylish Article Version 2.1 (1/10/15) from http://www.LaTeXTemplates.com
-%
+%%
 %% Original author:
 %% Mathias Legrand (legrand.mathias@gmail.com)
 %% With extensive modifications by:
 %% Vel (vel@latextemplates.com)
-%
+%%
 %% With extensive modifications by:
 %% YU Zhejian (Zhejian.19@intl.zju.edu.cn)
-%
+%%
 %% License:
 %% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% PREPARATION
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{ylarticle}[08/04/2020, v1.1 YLArticle]
+\ProvidesClass{ylarticle}[2020-08-04 v1.1 YLArticle]
 \RequirePackage{ifthen}
 \RequirePackage{calc}
 \AtEndOfClass{\RequirePackage{microtype}}
@@ -156,8 +158,10 @@
 \newcommand{\Keywords}[1]{\def\@Keywords{#1}}
 \newcommand{\Introduction}{\section*{Introduction}\addcontentsline{toc}{section}{Introduction}}
 \newcommand{\keywordname}{Keywords}
-%% ---------------------------------------------------------------------
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% TITLEPAGE
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
 
 \renewcommand{\@maketitle}{%
 \if@web
@@ -220,3 +224,5 @@
 \definecolor{color2}{RGB}{0,20,20} % Color of the boxes behind the abstract and headings
 \renewcommand{\verbatim@font}{\ttfamily\small}
 \RequirePackage[none]{hyphenat}
+
+\endinput
