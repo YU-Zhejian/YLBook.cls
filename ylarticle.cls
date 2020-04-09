@@ -16,7 +16,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{ylarticle}[2020-08-04 v1.1 YLArticle]
+\ProvidesClass{ylarticle}[2020-08-04 v1.2 YLArticle]
 \RequirePackage{ifthen}
 \RequirePackage{calc}
 \AtEndOfClass{\RequirePackage{microtype}}
@@ -146,7 +146,7 @@
 \setlist{nolistsep}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% ABSTRACT+AUTHOR FRAME
+%% TITLEPAGE
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
 
 \newcommand{\PaperTitle}[1]{\def\@PaperTitle{#1}}
@@ -158,10 +158,6 @@
 \newcommand{\Keywords}[1]{\def\@Keywords{#1}}
 \newcommand{\Introduction}{\section*{Introduction}\addcontentsline{toc}{section}{Introduction}}
 \newcommand{\keywordname}{Keywords}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% TITLEPAGE
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
 
 \renewcommand{\@maketitle}{%
 \if@web

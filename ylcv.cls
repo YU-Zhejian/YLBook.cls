@@ -15,7 +15,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \NeedsTeXFormat{LaTeX2e}[1999/12/01]
-\ProvidesClass{ylcv}[2020-08-04 v1.1 YLCV]
+\ProvidesClass{ylcv}[2020-08-04 v1.2 YLCV]
 \RequirePackage{times}
 \RequirePackage{url}
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{article}}
@@ -57,5 +57,9 @@
 \titleformat{\section}[block]{\large\scshape}{}{0em}{\raggedright #1}[\titlerule\vspace*{-0.5em}]
 \let\subsection=\relax \let\subsubsection=\relax \let\paragraph=\relax \let\subparagraph=\relax
 \setcounter{secnumdepth}{0}
+
+\newcommand\subsection{\@subsection}
+\def\@subsection[#1]#2{\textbf{#2}\hfill #1\par}
+
 
 \endinput

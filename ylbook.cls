@@ -14,7 +14,7 @@
 %% PREPARATION
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\NeedsTeXFormat{LaTeX2e}[1999/12/01]\ProvidesClass{ylbook}[2020-08-04 v2.2 YLBook]
+\NeedsTeXFormat{LaTeX2e}[1999/12/01]\ProvidesClass{ylbook}[2020-08-04 v2.3 YLBook]
 
 \RequirePackage{times}
 \RequirePackage{url}
@@ -176,12 +176,9 @@
 
 \RequirePackage{fancybox,color,eso-pic}
 	\shadowsize=2pt
-	\newcommand{\@intro}{}
-	\newcommand{\intro}[1]{\renewcommand{\@intro}{#1}}
-	\newcommand{\@subtitle}{}
-	\newcommand{\subtitle}[1]{\renewcommand{\@subtitle}{#1}}
-	\newcommand{\@backpic}{}
-	\newcommand{\backpic}[1]{\renewcommand{\@backpic}{#1}}
+	\newcommand{\intro}[1]{\def\@intro{#1}}
+	\newcommand{\subtitle}[1]{\def\@subtitle{#1}}
+	\newcommand{\backpic}[1]{\def\@backpic{#1}}
 	\renewcommand\maketitle{
 		\begin{titlepage}
 			\ifx\@backpic\@empty\else\AddToShipoutPictureBG*{\includegraphics[width=\paperwidth ,height=\paperheight]{\@backpic}}\fi
