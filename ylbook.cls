@@ -14,7 +14,7 @@
 %% PREPARATION
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\NeedsTeXFormat{LaTeX2e}[1999/12/01]\ProvidesClass{ylbook}[2020-08-04 v2.3 YLBook]
+\NeedsTeXFormat{LaTeX2e}[1999/12/01]\ProvidesClass{ylbook}[2020-08-04 v2.4 YLBook]
 
 \RequirePackage{times}
 \RequirePackage{url}
@@ -181,12 +181,16 @@
 	\newcommand{\backpic}[1]{\def\@backpic{#1}}
 	\renewcommand\maketitle{
 		\begin{titlepage}
-			\ifx\@backpic\@empty\else\AddToShipoutPictureBG*{\includegraphics[width=\paperwidth ,height=\paperheight]{\@backpic}}\fi
+			\ifx\@backpic\@empty
+				\let\@backpic=\relax
+			\else
+				\AddToShipoutPictureBG*{\includegraphics[width=\paperwidth ,height=\paperheight]{\@backpic}}
+			\fi
 			\sffamily
 			\if@web\else\vspace*{10mm}\fi
 			\begin{center}
 				\bfseries\doublebox{\parbox{14cm}{\centering
-						\Ovalbox{\centering\parbox{13.7cm}{\centering\Huge \@title\large\\\vspace*{1mm}\@subtitle }}\\\vspace*{5mm}\large \@author \\\vspace*{5mm}\if@chinese 编译于 \else Compiled at\fi \today}}
+						\Ovalbox{\centering\parbox{13.7cm}{\centering\Huge \@title\large\\\vspace*{1mm}\@subtitle }}\\\vspace*{5mm}\large \@author \\\vspace*{5mm}\if@chinese 编译于 \else Compiled at\space\fi \today}}
 			\end{center}
 			\vspace*{10mm}
 			\shadowbox{\parbox{8cm}{\@intro}}

@@ -16,7 +16,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{ylarticle}[2020-08-04 v1.2 YLArticle]
+\ProvidesClass{ylarticle}[2020-08-04 v1.3 YLArticle]
 \RequirePackage{ifthen}
 \RequirePackage{calc}
 \AtEndOfClass{\RequirePackage{microtype}}
@@ -86,7 +86,7 @@
 
 \RequirePackage[explicit]{titlesec}
 \if@web
-	\titleformat{\section}{\color{color1}\large\bfseries}{}{0em}{\colorbox{color2!10}{\parbox\dimexpr\linewidth-2\fboxsep\relax}{\centering\arabic{section}. #1}}}[]
+	\titleformat{\section}{\color{color1}\large\bfseries}{}{0em}{\colorbox{color2!10}{\parbox{\dimexpr\linewidth-2\fboxsep\relax}{\centering\arabic{section}. #1}}}[]
 	\titleformat{name=\section,numberless}{\color{color1}\large\bfseries}{}{0em}{\colorbox{color2!10}{\parbox{\dimexpr\linewidth-2\fboxsep\relax}{\centering#1}}}[]
 	\titleformat{\subsection}{\color{color1}\bfseries}{\thesubsection}{0.5em}{#1}[]
 \else
