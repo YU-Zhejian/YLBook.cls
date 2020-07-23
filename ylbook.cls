@@ -190,7 +190,7 @@
 			\if@web\else\vspace*{10mm}\fi
 			\begin{center}
 				\bfseries\doublebox{\parbox{14cm}{\centering
-						\Ovalbox{\centering\parbox{13.7cm}{\centering\Huge \@title\large\\\vspace*{1mm}\@subtitle }}\\\vspace*{5mm}\large \@author \\\vspace*{5mm}\if@chinese 编译于 \else Compiled at\space\fi \today}}
+						\Ovalbox{\centering\parbox{13.7cm}{\centering\Huge \@title{\ifx\@subtitle\@empty\else\large\\\vspace*{1mm}\@subtitle\fi} }}\\\vspace*{5mm}\large \@author \\\vspace*{5mm}\if@chinese 编译于 \else Compiled at\space\fi \today}}
 			\end{center}
 			\vspace*{10mm}
 			\shadowbox{\parbox{8cm}{\@intro}}
