@@ -70,7 +70,7 @@
 \RequirePackage{lastpage}  % Number of pages in the document
 \pagestyle{fancy}          % Enables the custom headers/footers
 %% Headers
-\lhead{\small\bfseries TDS Journal \@Access\\\@Type}
+\lhead{\small\bfseries \@Access\\\@Type}
 \chead{}
 \rhead{\small\bfseries\@PaperTitle\  --- \thepage}
 %% Footers
@@ -124,19 +124,7 @@
 %% MULTIPLE AUTHOR SET
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
 
-\newcount\@authcnt
-\newcount\@tmpcnt\@tmpcnt\z@
-
-\def\@affiliation{%
-\ifnum\@tmpcnt<\@authcnt
-	\global\advance\@tmpcnt1
-	\raggedright \csname @auth\romannumeral\the\@tmpcnt\endcsname\hfill\\%
-	\let\next\@affiliation \vskip1pt
-\else
-	\let\next\relax
-\fi
-\next}
-\newcommand{\affiliation}[1]{\global\advance\@authcnt1\expandafter\gdef\csname @auth\romannumeral\the\@authcnt\endcsname{#1}}
+\newcommand{\affiliation}[1]{\def\@affiliation{#1}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% LIST CONTROL
@@ -177,20 +165,13 @@
 	\ifx\@Abstract\@empty\else
 		\colorbox{color2!10}{
 		\parbox{\textwidth-4\fboxsep-2\fboxrule}{%
-		\ifx\@Keywords\@empty%
-			\textbf{\abstractname}\\\@Abstract%
-		\else%
-			\textbf{\abstractname}\\\@Abstract\\[4pt]%
-			\textbf{\keywordname}\\\@Keywords%
+			\textbf{\abstractname:} \@Abstract\vskip4pt%
+		\ifx\@Keywords\@empty\else
+			\textbf{\keywordname:} \@Keywords%
 		\fi%
 		}}
 	\fi
-	\vskip4pt%
-	\begingroup%
-	\raggedright\small%
-	\footnotesize\@affiliation\par%
-	\endgroup%%
-	}}
+	}}\\{\footnotesize\@affiliation}
 	\vspace*{1cm}\par}]%
 \else
 	\twocolumn[{
